@@ -32,13 +32,13 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/category/add", method = RequestMethod.POST)
-    public ResponseBase<Category> addCategory(@RequestBody CategoryAddRequest request) {
-        return null;
+    public ResponseBase<Boolean> addCategory(@RequestBody CategoryAddRequest request) {
+        return ResponseBase.success(productService.addCategory(request));
     }
 
     @RequestMapping(value = "/category/update", method = RequestMethod.POST)
-    public ResponseBase<Category> updateCategory(@RequestBody CategoryUpdateRequest request) {
-        return null;
+    public ResponseBase<Boolean> updateCategory(@RequestBody CategoryUpdateRequest request) {
+        return ResponseBase.success(productService.updateCategory(request));
     }
 
 }

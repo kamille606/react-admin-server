@@ -16,7 +16,7 @@ public class UserService {
             user.setEmail("a@qq.com");
             return user;
         }
-        throw new BizException("登录失败，用户名或密码不正确");
+        throw new BizException("登录失败,用户名或密码不正确");
     }
 
 }

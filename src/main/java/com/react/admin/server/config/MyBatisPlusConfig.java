@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class MyBatisPlusConfig {
 
     /**
-     * 新增分页拦截器，并设置数据库类型为mysql
+     * 新增分页拦截器,并设置数据库类型为mysql
      */
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {

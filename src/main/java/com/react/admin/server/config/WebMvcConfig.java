@@ -13,7 +13,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**") //所有的当前站点的请求地址，都支持跨域访问。
+        registry.addMapping("/**") //所有的当前站点的请求地址,都支持跨域访问。
                 .allowedOriginPatterns("*")
                 .allowCredentials(true) //是否支持跨域用户凭证
                 .allowedMethods(ORIGINS) //当前站点支持的跨域请求类型是什么
