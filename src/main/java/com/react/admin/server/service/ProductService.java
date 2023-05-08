@@ -2,12 +2,16 @@ package com.react.admin.server.service;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.react.admin.server.domain.entity.Category;
-import com.react.admin.server.domain.model.CategoryAddRequest;
-import com.react.admin.server.domain.model.CategoryListRequest;
-import com.react.admin.server.domain.model.CategoryUpdateRequest;
+import com.react.admin.server.domain.entity.Product;
+import com.react.admin.server.domain.model.product.CategoryAddRequest;
+import com.react.admin.server.domain.model.product.CategoryListRequest;
+import com.react.admin.server.domain.model.product.CategoryUpdateRequest;
+import com.react.admin.server.domain.model.product.ProductPageRequest;
 import com.react.admin.server.exception.BizException;
 import com.react.admin.server.mapper.CategoryMapper;
+import com.react.admin.server.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +23,19 @@ import static com.react.admin.server.constant.BaseConst.NORMAL;
 @RequiredArgsConstructor
 public class ProductService {
 
+    private final ProductMapper productMapper;
     private final CategoryMapper categoryMapper;
+
+    public Page<Product> queryProductPage(ProductPageRequest request) {
+        final String productName = request.getProductName();
+        final String productDesc = request.getProductDesc();
+        return productMapper.selectPage(
+                new Page<>(request.getCurrent(), request.getPageSize()),
+                Wrappers.lambdaQuery(Product.class)
+                        .like(StringUtils.isNotBlank(productName), Product::getProductName, productName)
+                        .like(StringUtils.isNotBlank(productDesc), Product::getProductDesc, productDesc)
+                        .eq(Product::getDeleted, NORMAL));
+    }
 
     public List<Category> queryCategoryList(CategoryListRequest request) {
         return categoryMapper.selectList(Wrappers.lambdaQuery(Category.class)

@@ -1,4 +1,4 @@
-package com.react.admin.server.domain.model;
+package com.react.admin.server.domain.model.product;
 
 import com.react.admin.server.domain.RequestPage;
 import lombok.Data;
