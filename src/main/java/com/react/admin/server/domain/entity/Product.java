@@ -15,6 +15,7 @@ public class Product {
     private String productDesc;
     private String productDetail;
     private Integer categoryId;
+    private Integer categoryPid;
     private Integer price;
     /**
      * 商品状态1已上架2未上架

@@ -9,4 +9,9 @@ public class BaseConst {
     public static final int NORMAL = 0;
     public static final int DELETE = 1;
     public static final String BAIDU_AK = "CoxiN8MtZtMivWjwuhteQLUwmrPwNKiW";
+
+
+    public static final String UPLOAD_PATH = "C:\\Users\\Lain\\Desktop\\upload\\";
+    public static final String PICTURE_PATH = UPLOAD_PATH + "images\\";
+    public static final String PICTURE_URL = "http://127.0.0.1:8080/images/";
 }

@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.react.admin.server.constant.BaseConst.NORMAL;
 
@@ -55,7 +56,7 @@ public class ProductService {
 
     public List<Category> queryCategoryList(CategoryListRequest request) {
         return categoryMapper.selectList(Wrappers.lambdaQuery(Category.class)
-                .eq(Category::getParentId, request.getParentId())
+                .eq(Objects.nonNull(request.getParentId()), Category::getParentId, request.getParentId())
                 .eq(StringUtils.isNotBlank(request.getCategoryName()), Category::getCategoryName, request.getCategoryName())
                 .eq(Category::getDeleted, NORMAL));
     }
