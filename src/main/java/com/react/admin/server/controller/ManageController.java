@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/api/data")
+@RequestMapping("/api/manage")
 @RequiredArgsConstructor
-public class DataController {
+public class ManageController {
 
     private final DataService dataService;
 
@@ -22,9 +22,9 @@ public class DataController {
         return ResponseBase.success(dataService.queryWeatherInfo());
     }
 
-    @RequestMapping(value = "/upload/picture", method = RequestMethod.POST)
-    public ResponseBase<PictureUploadResponse> uploadPictureFile(@RequestPart("file") MultipartFile file) {
-        return ResponseBase.success(dataService.uploadPictureFile(file));
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public ResponseBase<PictureUploadResponse> uploadFile(@RequestPart("file") MultipartFile file) {
+        return ResponseBase.success(dataService.uploadFile(file));
     }
 
 }

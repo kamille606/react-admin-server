@@ -1,5 +1,6 @@
 package com.react.admin.server.service;
 
+import cn.hutool.core.io.FileTypeUtil;
 import cn.hutool.core.io.FileUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
@@ -18,7 +19,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static com.react.admin.server.constant.BaseConst.BAIDU_AK;
 import static com.react.admin.server.constant.BaseConst.PICTURE_PATH;
+import static com.react.admin.server.constant.BaseConst.PICTURE_TYPE;
 import static com.react.admin.server.constant.BaseConst.PICTURE_URL;
+import static com.react.admin.server.constant.BaseConst.VIDEO_PATH;
+import static com.react.admin.server.constant.BaseConst.VIDEO_TYPE;
 
 @Slf4j
 @Service
@@ -30,10 +34,20 @@ public class DataService {
 
     private final RestTemplate restTemplate;
 
-    public PictureUploadResponse uploadPictureFile(MultipartFile file) {
-        String originName = file.getOriginalFilename();
+    public PictureUploadResponse uploadFile(MultipartFile file) {
+        final String originName = file.getOriginalFilename();
+        final String fileType = FileTypeUtil.getType(originName);
+        final String pathName;
+        if (PICTURE_TYPE.contains(fileType)) {
+            pathName = PICTURE_PATH;
+        } else if (VIDEO_TYPE.contains(fileType)) {
+            pathName = VIDEO_PATH;
+        } else {
+            throw new BizException("不支持的文件类型");
+        }
+
         final String fileName = UUID.randomUUID() + "." + FileUtil.extName(originName);
-        final String storageName = PICTURE_PATH + fileName;
+        final String storageName = pathName + fileName;
         try {
             FileUtil.writeBytes(file.getBytes(), storageName);
         } catch (IOException e) {

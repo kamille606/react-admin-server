@@ -12,7 +12,9 @@ import static com.react.admin.server.constant.BaseConst.PICTURE_PATH;
 @RequiredArgsConstructor
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    static final String[] ORIGINS = new String[]{"GET", "POST", "PUT", "DELETE"};
+    private static final String[] ORIGINS = new String[]{
+            "GET", "POST", "PUT", "DELETE"
+    };
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -28,4 +30,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/images/**")
                 .addResourceLocations("file:" + PICTURE_PATH);
     }
+
 }
