@@ -44,6 +44,9 @@ public class ProductService {
     }
 
     public boolean addProduct(ProductAddRequest request) {
+        if (request.getCategoryPid() == null) {
+            throw new BizException("添加失败,请选择分类");
+        }
         final Product product = BeanUtil.copyProperties(request, Product.class);
         if (productMapper.insert(product) == 0) {
             throw new BizException("添加失败");
@@ -52,6 +55,9 @@ public class ProductService {
     }
 
     public boolean updateProduct(ProductUpdateRequest request) {
+        if (request.getCategoryPid() == null) {
+            throw new BizException("更新失败,请选择分类");
+        }
         final Product product = productMapper.selectById(request.getProductId());
         if (product == null) {
             throw new BizException("查询错误");
