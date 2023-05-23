@@ -16,11 +16,12 @@ public class Product {
     private String productDetail;
     private Integer categoryId;
     private Integer categoryPid;
-    private Integer price;
+    private Integer productPrice;
+    private String productImages;
     /**
      * 商品状态1已上架2未上架
      */
-    private Integer status;
+    private Integer productStatus;
     private Integer deleted;
     private Date createTime;
     private Date updateTime;

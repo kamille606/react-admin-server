@@ -1,5 +1,6 @@
 package com.react.admin.server.service;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -9,8 +10,10 @@ import com.react.admin.server.domain.model.product.CategoryAddRequest;
 import com.react.admin.server.domain.model.product.CategoryInfoRequest;
 import com.react.admin.server.domain.model.product.CategoryListRequest;
 import com.react.admin.server.domain.model.product.CategoryUpdateRequest;
+import com.react.admin.server.domain.model.product.ProductAddRequest;
 import com.react.admin.server.domain.model.product.ProductOperateRequest;
 import com.react.admin.server.domain.model.product.ProductPageRequest;
+import com.react.admin.server.domain.model.product.ProductUpdateRequest;
 import com.react.admin.server.exception.BizException;
 import com.react.admin.server.mapper.CategoryMapper;
 import com.react.admin.server.mapper.ProductMapper;
@@ -40,6 +43,26 @@ public class ProductService {
                         .eq(Product::getDeleted, NORMAL));
     }
 
+    public boolean addProduct(ProductAddRequest request) {
+        final Product product = BeanUtil.copyProperties(request, Product.class);
+        if (productMapper.insert(product) == 0) {
+            throw new BizException("添加失败");
+        }
+        return true;
+    }
+
+    public boolean updateProduct(ProductUpdateRequest request) {
+        final Product product = productMapper.selectById(request.getProductId());
+        if (product == null) {
+            throw new BizException("查询错误");
+        }
+        BeanUtil.copyProperties(request, product);
+        if (productMapper.updateById(product) == 0) {
+            throw new BizException("更新失败");
+        }
+        return true;
+    }
+
     public boolean operateProductOnSell(ProductOperateRequest request) {
         if (productMapper.updateStatusById(1, request.getProductId()) == 0) {
             throw new BizException("上架失败");
@@ -56,7 +79,7 @@ public class ProductService {
 
     public List<Category> queryCategoryList(CategoryListRequest request) {
         return categoryMapper.selectList(Wrappers.lambdaQuery(Category.class)
-                .eq(Objects.nonNull(request.getParentId()), Category::getParentId, request.getParentId())
+                .eq(Objects.nonNull(request.getCategoryPid()), Category::getCategoryPid, request.getCategoryPid())
                 .eq(StringUtils.isNotBlank(request.getCategoryName()), Category::getCategoryName, request.getCategoryName())
                 .eq(Category::getDeleted, NORMAL));
     }
@@ -76,7 +99,7 @@ public class ProductService {
         }
         category = new Category();
         category.setCategoryName(categoryName);
-        category.setParentId(request.getParentId());
+        category.setCategoryPid(request.getCategoryPid());
         if (categoryMapper.insert(category) == 0) {
             throw new BizException("新增失败");
         }

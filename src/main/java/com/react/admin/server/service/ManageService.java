@@ -1,6 +1,5 @@
 package com.react.admin.server.service;
 
-import cn.hutool.core.io.FileTypeUtil;
 import cn.hutool.core.io.FileUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
@@ -27,7 +26,7 @@ import static com.react.admin.server.constant.BaseConst.VIDEO_TYPE;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DataService {
+public class ManageService {
 
     private static final String WEATHER_API = "https://api.map.baidu.com/weather/v1/?district_id=330110&data_type=all&ak=";
     private static final Map<String, String> CACHE_MAP = new ConcurrentHashMap<>();
@@ -36,7 +35,7 @@ public class DataService {
 
     public PictureUploadResponse uploadFile(MultipartFile file) {
         final String originName = file.getOriginalFilename();
-        final String fileType = FileTypeUtil.getType(originName);
+        final String fileType = FileUtil.extName(originName);
         final String pathName;
         if (PICTURE_TYPE.contains(fileType)) {
             pathName = PICTURE_PATH;
@@ -46,7 +45,7 @@ public class DataService {
             throw new BizException("不支持的文件类型");
         }
 
-        final String fileName = UUID.randomUUID() + "." + FileUtil.extName(originName);
+        final String fileName = UUID.randomUUID() + "." + fileType;
         final String storageName = pathName + fileName;
         try {
             FileUtil.writeBytes(file.getBytes(), storageName);

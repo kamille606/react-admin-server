@@ -12,7 +12,7 @@ public class Category {
     @TableId
     private Integer categoryId;
     private String categoryName;
-    private Integer parentId;
+    private Integer categoryPid;
     private Integer deleted;
     private Date createTime;
     private Date updateTime;

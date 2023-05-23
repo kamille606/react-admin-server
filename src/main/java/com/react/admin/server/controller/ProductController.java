@@ -9,8 +9,10 @@ import com.react.admin.server.domain.model.product.CategoryInfoRequest;
 import com.react.admin.server.domain.model.product.CategoryListRequest;
 import com.react.admin.server.domain.model.product.CategoryPageRequest;
 import com.react.admin.server.domain.model.product.CategoryUpdateRequest;
+import com.react.admin.server.domain.model.product.ProductAddRequest;
 import com.react.admin.server.domain.model.product.ProductOperateRequest;
 import com.react.admin.server.domain.model.product.ProductPageRequest;
+import com.react.admin.server.domain.model.product.ProductUpdateRequest;
 import com.react.admin.server.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +30,16 @@ public class ProductController {
     @RequestMapping(value = "/page", method = RequestMethod.POST)
     public ResponsePage<Product> queryProductPage(@RequestBody ProductPageRequest request) {
         return ResponsePage.success(productService.queryProductPage(request));
+    }
+
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public ResponseBase<Boolean> addProduct(@RequestBody ProductAddRequest request) {
+        return ResponseBase.success(productService.addProduct(request));
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public ResponseBase<Boolean> updateProduct(@RequestBody ProductUpdateRequest request) {
+        return ResponseBase.success(productService.updateProduct(request));
     }
 
     @RequestMapping(value = "/on-sell", method = RequestMethod.POST)

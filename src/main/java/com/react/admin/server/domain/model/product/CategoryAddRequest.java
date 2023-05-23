@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class CategoryAddRequest {
-    private Integer parentId;
+    private Integer categoryPid;
     private String categoryName;
 }
