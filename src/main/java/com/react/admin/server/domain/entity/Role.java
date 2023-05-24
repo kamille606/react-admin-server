@@ -7,16 +7,14 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-@TableName("user_info")
-public class User {
+@TableName("role_info")
+public class Role {
     @TableId
-    private Integer userId;
-    private String username;
-    private String nickname;
-    private String password;
-    private String email;
-    private String mobile;
     private Integer roleId;
+    private String roleName;
+    private String authName;
+    private String menus;
+    private Date authTime;
     private Integer deleted;
     private Date createTime;
     private Date updateTime;

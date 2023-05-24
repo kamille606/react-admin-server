@@ -1,4 +1,4 @@
-package com.react.admin.server.domain.model;
+package com.react.admin.server.domain.model.auth;
 
 import lombok.Data;
 

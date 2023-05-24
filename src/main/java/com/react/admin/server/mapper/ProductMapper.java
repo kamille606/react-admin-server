@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Update;
 @Mapper
 public interface ProductMapper extends BaseMapper<Product> {
 
-    @Update("update product_info set status = #{status} where product_id = #{productId}")
+    @Update("update product_info set product_status = #{status} where product_id = #{productId}")
     int updateStatusById(@Param("status") Integer status, @Param("productId") Integer productId);
 
 }
