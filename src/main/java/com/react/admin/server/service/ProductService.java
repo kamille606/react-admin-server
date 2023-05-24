@@ -23,8 +23,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
-import static com.react.admin.server.constant.BaseConst.NORMAL;
-
 @Service
 @RequiredArgsConstructor
 public class ProductService {
@@ -39,8 +37,7 @@ public class ProductService {
                 new Page<>(request.getCurrent(), request.getPageSize()),
                 Wrappers.lambdaQuery(Product.class)
                         .like(StringUtils.isNotBlank(productName), Product::getProductName, productName)
-                        .like(StringUtils.isNotBlank(productDesc), Product::getProductDesc, productDesc)
-                        .eq(Product::getDeleted, NORMAL));
+                        .like(StringUtils.isNotBlank(productDesc), Product::getProductDesc, productDesc));
     }
 
     public boolean addProduct(ProductAddRequest request) {
@@ -86,8 +83,7 @@ public class ProductService {
     public List<Category> queryCategoryList(CategoryListRequest request) {
         return categoryMapper.selectList(Wrappers.lambdaQuery(Category.class)
                 .eq(Objects.nonNull(request.getCategoryPid()), Category::getCategoryPid, request.getCategoryPid())
-                .eq(StringUtils.isNotBlank(request.getCategoryName()), Category::getCategoryName, request.getCategoryName())
-                .eq(Category::getDeleted, NORMAL));
+                .eq(StringUtils.isNotBlank(request.getCategoryName()), Category::getCategoryName, request.getCategoryName()));
     }
 
     public Category queryCategoryInfo(CategoryInfoRequest request) {

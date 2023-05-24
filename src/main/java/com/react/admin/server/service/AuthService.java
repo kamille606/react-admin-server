@@ -1,7 +1,7 @@
 package com.react.admin.server.service;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.react.admin.server.domain.entity.Role;
 import com.react.admin.server.domain.entity.User;
 import com.react.admin.server.domain.model.auth.RoleAddRequest;
@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import static com.react.admin.server.constant.BaseConst.NORMAL;
 
 @Slf4j
 @Service
@@ -42,8 +40,10 @@ public class AuthService {
     }
 
     public List<UserVo> queryUserList() {
-        final List<User> userList = userMapper.selectList(
-                Wrappers.lambdaQuery(User.class).eq(User::getDeleted, NORMAL));
+        final List<User> userList = userMapper.selectList(null);
+        if (CollectionUtils.isEmpty(userList)) {
+            return new ArrayList<>(0);
+        }
         final List<Integer> roleIdList = userList.stream().map(User::getRoleId).collect(Collectors.toList());
         final List<Role> roleList = roleMapper.selectBatchIds(roleIdList);
         final Map<Integer, String> roleMap = roleList.stream().collect(Collectors.toMap(Role::getRoleId, Role::getRoleName));
@@ -59,8 +59,7 @@ public class AuthService {
     }
 
     public List<Role> queryRoleList() {
-        return roleMapper.selectList(Wrappers.lambdaQuery(Role.class)
-                .eq(Role::getDeleted, NORMAL));
+        return roleMapper.selectList(null);
     }
 
     public boolean addRole(RoleAddRequest request) {
