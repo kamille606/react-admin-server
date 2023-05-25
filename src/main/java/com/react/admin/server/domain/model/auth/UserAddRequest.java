@@ -2,19 +2,12 @@ package com.react.admin.server.domain.model.auth;
 
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
-public class UserVo {
-    private Integer userId;
+public class UserAddRequest {
     private String username;
+    private String password;
     private String nickname;
     private String email;
     private String mobile;
-    private RoleVo role;
     private Integer roleId;
-    private String roleName;
-    private Integer deleted;
-    private Date createTime;
-    private Date updateTime;
 }

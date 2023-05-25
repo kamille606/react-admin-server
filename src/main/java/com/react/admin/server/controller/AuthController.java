@@ -6,7 +6,10 @@ import com.react.admin.server.domain.entity.Role;
 import com.react.admin.server.domain.entity.User;
 import com.react.admin.server.domain.model.auth.RoleAddRequest;
 import com.react.admin.server.domain.model.auth.RoleUpdateRequest;
+import com.react.admin.server.domain.model.auth.UserAddRequest;
+import com.react.admin.server.domain.model.auth.UserDeleteRequest;
 import com.react.admin.server.domain.model.auth.UserLoginRequest;
+import com.react.admin.server.domain.model.auth.UserUpdateRequest;
 import com.react.admin.server.domain.model.auth.UserVo;
 import com.react.admin.server.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +25,11 @@ public class AuthController {
 
     private final AuthService authService;
 
+    /**
+     * 用户管理
+     */
     @RequestMapping(value = "/user/login", method = RequestMethod.POST)
-    public ResponseBase<User> userLogin(@RequestBody UserLoginRequest request) {
+    public ResponseBase<UserVo> userLogin(@RequestBody UserLoginRequest request) {
         return ResponseBase.success(authService.userLogin(request));
     }
 
@@ -32,6 +38,24 @@ public class AuthController {
         return ResponsePage.success(authService.queryUserList());
     }
 
+    @RequestMapping(value = "/user/add", method = RequestMethod.POST)
+    public ResponseBase<Boolean> addUser(@RequestBody UserAddRequest request) {
+        return ResponseBase.success(authService.addUser(request));
+    }
+
+    @RequestMapping(value = "/user/delete", method = RequestMethod.POST)
+    public ResponseBase<Boolean> deleteUser(@RequestBody UserDeleteRequest request) {
+        return ResponseBase.success(authService.deleteUser(request));
+    }
+
+    @RequestMapping(value = "/user/update", method = RequestMethod.POST)
+    public ResponseBase<Boolean> updateUser(@RequestBody UserUpdateRequest request) {
+        return ResponseBase.success(authService.updateUser(request));
+    }
+
+    /**
+     * 角色管理
+     */
     @RequestMapping(value = "/role/list", method = RequestMethod.GET)
     public ResponsePage<Role> queryRoleList() {
         return ResponsePage.success(authService.queryRoleList());
