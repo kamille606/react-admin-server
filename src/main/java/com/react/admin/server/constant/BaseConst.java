@@ -4,7 +4,6 @@ import java.util.Set;
 
 public class BaseConst {
     public static final String SUCCESS_MSG = "请求成功";
-    public static final String FAIL_MSG = "请求失败";
     public static final String NOT_SUPPORT_MSG = "不支持的http请求类型";
 
     public static final String EMPTY = "";

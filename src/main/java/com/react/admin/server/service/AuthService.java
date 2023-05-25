@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.react.admin.server.constant.BaseConst.EMPTY;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -45,8 +47,8 @@ public class AuthService {
             return new ArrayList<>(0);
         }
         final List<Integer> roleIdList = userList.stream().map(User::getRoleId).collect(Collectors.toList());
-        final List<Role> roleList = roleMapper.selectBatchIds(roleIdList);
-        final Map<Integer, String> roleMap = roleList.stream().collect(Collectors.toMap(Role::getRoleId, Role::getRoleName));
+        final Map<Integer, String> roleMap = roleMapper.selectBatchIds(roleIdList)
+                .stream().collect(Collectors.toMap(Role::getRoleId, Role::getRoleName));
 
         final List<UserVo> userVoList = BeanUtil.copyToList(userList, UserVo.class);
         userVoList.forEach(userVo -> userVo.setRoleName(roleMap.get(userVo.getRoleId())));
@@ -61,7 +63,7 @@ public class AuthService {
         Role role = new Role();
         role.setRoleName(request.getRoleName());
         role.setAuthName("admin");
-        role.setMenus("/home");
+        role.setMenus(EMPTY);
         if (roleMapper.insert(role) == 0) {
             throw new BizException("添加失败");
         }

@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BizException.class)
     @ResponseStatus(HttpStatus.OK)
     public ResponseBase<String> handleBizException(BizException e) {
-        return ResponseBase.fail(e.getErrorMsg());
+        return ResponseBase.fail(e.getErrorMessage());
     }
 
 }
