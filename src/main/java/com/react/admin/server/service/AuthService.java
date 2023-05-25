@@ -48,13 +48,8 @@ public class AuthService {
         final List<Role> roleList = roleMapper.selectBatchIds(roleIdList);
         final Map<Integer, String> roleMap = roleList.stream().collect(Collectors.toMap(Role::getRoleId, Role::getRoleName));
 
-        final List<UserVo> userVoList = new ArrayList<>(userList.size());
-        userList.forEach(user -> {
-            final String roleName = roleMap.get(user.getRoleId());
-            final UserVo userVo = BeanUtil.copyProperties(user, UserVo.class);
-            userVo.setRoleName(roleName);
-            userVoList.add(userVo);
-        });
+        final List<UserVo> userVoList = BeanUtil.copyToList(userList, UserVo.class);
+        userVoList.forEach(userVo -> userVo.setRoleName(roleMap.get(userVo.getRoleId())));
         return userVoList;
     }
 
